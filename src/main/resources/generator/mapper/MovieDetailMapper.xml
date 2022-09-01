@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kanxz.movie.generator.mapper.MovieDetailMapper">
+
+
+    <select id="getAllLanguage" resultType="java.lang.String">
+        SELECT DISTINCT md.`language`
+        FROM movie_detail md;
+    </select>
+    <select id="getTagsById" resultType="java.lang.String">
+        SELECT tag.tag_name
+        FROM movie_tag
+                 LEFT JOIN movie ON movie.id = movie_tag.movie_id
+                 LEFT JOIN tag ON movie_tag.tag_id = tag.id
+        WHERE movie_id = #{id};
+    </select>
+</mapper>

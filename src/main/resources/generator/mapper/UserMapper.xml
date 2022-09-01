@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kanxz.movie.generator.mapper.UserMapper">
+
+    <select id="getBackendUserList" resultType="com.kanxz.movie.dto.UserDTO">
+        SELECT `user`.id,
+               `user`.username,
+               `user`.`status`,
+               user_info.email,
+               user_info.gender,
+               user_info.age,
+               role.role_key
+        FROM `user`
+                 INNER JOIN user_role ON `user`.id = user_role.user_id
+                 INNER JOIN role ON user_role.role_id = role.id
+                 INNER JOIN user_info ON `user`.id = user_info.user_id
+        WHERE username REGEXP #{name}
+    </select>
+</mapper>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kanxz.movie.generator.mapper.CommentMapper">
+
+    <select id="getBackendCommentList" resultType="com.kanxz.movie.dto.CommentDTO">
+        SELECT `comment`.id,
+               `comment`.username,
+               `comment`.comments,
+               `comment`.create_time,
+               movie.`name` AS movieName
+        FROM `comment`
+                 INNER JOIN movie ON `comment`.movie_id = movie.id
+        WHERE `comment`.`username` REGEXP #{name}
+    </select>
+</mapper>

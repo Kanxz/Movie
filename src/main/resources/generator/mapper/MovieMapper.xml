@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kanxz.movie.generator.mapper.MovieMapper">
+
+    <select id="getMovieList" resultType="com.kanxz.movie.generator.entity.Movie">
+        SELECT DISTINCT movie.*
+        FROM movie
+                 INNER JOIN movie_detail ON movie.douban_id = movie_detail.douban_id
+                 INNER JOIN movie_tag ON movie.id = movie_tag.movie_id
+                 INNER JOIN tag ON tag.id = movie_tag.tag_id
+        WHERE LANGUAGE REGEXP #{ lan }
+          AND tag_name REGEXP #{ tag }
+    </select>
+    <select id="getMovieListWithSort" resultType="com.kanxz.movie.generator.entity.Movie">
+        SELECT DISTINCT movie.*
+        FROM movie
+                 INNER JOIN movie_detail ON movie.douban_id = movie_detail.douban_id
+                 INNER JOIN movie_tag ON movie.id = movie_tag.movie_id
+                 INNER JOIN tag ON tag.id = movie_tag.tag_id
+        WHERE language REGEXP #{ Lan }
+          AND tag_name REGEXP #{ Tag }
+        ORDER BY ${ sortFn }
+    </select>
+    <select id="getAllMovieInfo" resultType="com.kanxz.movie.dto.MovieDTO">
+        SELECT movie.id,
+               movie.douban_id,
+               movie.`name`,
+               movie.score,
+               movie.pic_url,
+               movie_detail.director,
+               movie_detail.`language`,
+               movie_detail.release_time,
+               movie_detail.length
+        FROM movie
+                 INNER JOIN movie_detail ON movie.douban_id = movie_detail.douban_id
+        WHERE movie.`name` REGEXP #{ name }
+    </select>
+</mapper>
